@@ -1,0 +1,21 @@
+.background{
+    background-color: #252f5f ;
+    background-repeat: no-repeat;
+}
+
+.home-background{
+    background-image: url('../public/students-rhossili-beach-1600-788-med.jpg');
+    background-repeat: no-repeat;
+}
+
+.line{
+    border-right: 2px solid white;
+    height: auto;
+    /* width: 100%; */
+}
+
+.nav-header{
+    color: white;
+    display: inline-block;
+    position: absolute;
+}
