@@ -1,34 +1,20 @@
 import './App.css';
 import './temp.css';
-import {Home} from './Screens/Home';
-import { Login } from './Screens/Login';
-import {BrowserRouter, Route, Routes, NavLink} from 'react-router-dom';
+import Home from './Screens/Home';
+import Header from './component/header';
+import Footer from './component/footer';
 
 
 function App() {
   return (
-    <BrowserRouter>
-      <div className="App">
-        <div className='container-fluid background'>
-          <nav className='navbar navbar-expand-sm navbar-dark'>
-            <ul className='navbar-nav'>
-              <li className='nav-item-'>
-                  <NavLink to='/home'>
-                    <img className='line img-thumnail' src='/logo-white-stacked-en.svg' width={120}/>
-                  </NavLink>
-                    <h4 className='nav-header mx-3 pt-4'>Scholarship Submission</h4>
-              </li>
-            </ul>
-          </nav>
+    <div className="App">
+        <Header />
+        <div className='students-background ui-g" tabIndex={"-1"}'>
+          <Home />
         </div>
-        <Routes>
-          <Route path='/' component={Home}/>
-          <Route path='/home' component={Home}/>
-          <Route path='/login' component={Login}/>
-        </Routes>
+        <Footer />
       </div>
-    </BrowserRouter>
   );
-}
+};
 
 export default App;
