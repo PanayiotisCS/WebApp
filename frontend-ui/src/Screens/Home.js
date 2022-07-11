@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDom from 'react-dom/client';
+import { Link } from 'react-router-dom';
 import { FaSignInAlt } from "react-icons/fa";
 
 const Home = () =>{
@@ -41,7 +42,7 @@ const Home = () =>{
                                     </div>
                                 </form>
                                 <hr/>
-                                <a href="/register">Don't have an account? Register here</a>       
+                                <Link to={'/Register'} className="nav-link">Don't have an account? Register here</Link>       
                                 <br/>
                                 <a href="#">Forgot Password?</a>
                             </div>

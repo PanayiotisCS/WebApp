@@ -58,3 +58,8 @@ footer{
     background-color: lightgray;
     border-radius: 15px;
 }
+
+.err{
+
+    color: red;
+}

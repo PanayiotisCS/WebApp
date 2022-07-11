@@ -4,7 +4,7 @@ import reportWebVitals from './reportWebVitals';
 import './index.css';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import App from './App';
-import { Register } from './Screens/Register';
+import  Register  from './Screens/Register';
 import AdminLogin from './Admin/Screens/AdminLogin';
 
 
