@@ -1,10 +1,40 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ReactDom from 'react-dom/client';
-import { Link } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { FaSignInAlt } from "react-icons/fa";
+import axios from 'axios';
+import { toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 const Home = () =>{
-    
+    const navigate = useNavigate();
+
+    const initialValues = {
+        Username: '',
+        Password: ''
+    }
+
+    const [data, setData] = useState(initialValues);
+    const loginUrl = "https://localhost:7169/api/Users/login";
+
+    const Login = async (e) =>{
+        e.preventDefault();
+        const data1 = { Username: data.Username, Password: data.Password };
+
+        try {
+            const response = await axios.post(loginUrl, data1);
+            console.log(response);
+            navigate('/Dashboard');
+        } catch (error) {
+            if(error.response){
+                toast.error(error.response.data.error);
+            }
+        }
+    }
+
+    const onChange = (e) => {
+        setData({ ...data, [e.target.name]: e.target.value});
+    }
     return(
         <div className='container pt-5'>
             <div className='row pt-5'>
@@ -12,7 +42,7 @@ const Home = () =>{
                 <div className='card pt-2'>
                         <div className="">
                             <div className='card-body'>
-                                <form>
+                                <form onSubmit={Login}>
                                     <div className='input-group row'>
                                         <div className='col-sm-4'>
                                             <h3><FaSignInAlt size={"26"}/> Login</h3>
@@ -24,15 +54,29 @@ const Home = () =>{
                                         </div>
                                     </div>
                                     <div className='form-group row pt-2 m-auto'>
-                                        <label for="username" className='col-sm-3 col-form-label'>Username</label>
+                                        <label htmlFor="username" className='col-sm-3 col-form-label'>Username</label>
                                         <div className='col-sm-9'>
-                                            <input type="text" className='form-control' id="username"></input>
+                                            <input 
+                                                type="text" 
+                                                name="Username"
+                                                className='form-control'
+                                                onChange={onChange} 
+                                                value={data.Username}
+                                                id="username"
+                                            />
                                         </div>
                                     </div>
                                     <div className='form-group row pt-2 m-auto'>
-                                        <label for="password" className='col-sm-3 col-form-label'>Password</label>
+                                        <label htmlFor="password" className='col-sm-3 col-form-label'>Password</label>
                                         <div className='col-sm-9'>
-                                            <input type="password" className='form-control' id="password"></input>
+                                            <input
+                                                type="password" 
+                                                name="Password"
+                                                className='form-control' 
+                                                onChange={onChange}
+                                                value={data.Password}
+                                                id="password"
+                                            />
                                         </div>
                                     </div>
                                     <div className='row pt-3'>
