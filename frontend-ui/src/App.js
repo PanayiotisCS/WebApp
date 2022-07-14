@@ -1,6 +1,6 @@
 import './App.css';
 import './temp.css';
-import Home from './Screens/Home';
+import Login from './Screens/Login';
 import Header from './component/header';
 import Footer from './component/footer';
 
@@ -10,7 +10,7 @@ function App() {
     <div className="App">
         <Header />
         <div className='students-background ui-g" tabIndex={"-1"}'>
-          <Home />
+          <Login />
         </div>
         <Footer />
       </div>

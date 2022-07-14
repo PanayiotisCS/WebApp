@@ -8,6 +8,8 @@ import  Register  from './Screens/Register';
 import AdminLogin from './Admin/Screens/AdminLogin';
 import {ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Dashboard from './Screens/Dashboard';
+import NotFound from './Screens/NotFound';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -15,15 +17,26 @@ root.render(
     <ToastContainer />
     <BrowserRouter>
       <Routes>
+          {/* Public routes */}
           <Route path="/" element={<App />} />
-          <Route path="/Home" element={<App />} />
+          <Route path="/Login" element={<App />} />
           <Route path="/Register" element={<Register />}/>
 
-          <Route path="/admin" element={<AdminLogin />} />
+          {/* protected routes */}
+          {/* <Route element={<RequireAuth />}> */}
+            <Route path="/" element={ <Dashboard /> }/>
+            <Route path="/Dashboard" element={<Dashboard />}/>
+
+            <Route path="notfound" element={<NotFound />} />
+
+            {/* admin public routes */}
+            <Route path="/admin" element={<AdminLogin />} />
+          {/* </Route> */}
       </Routes>
     </BrowserRouter>
   </React.StrictMode>
 );
+
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

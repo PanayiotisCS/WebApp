@@ -1,19 +1,18 @@
 import React, { useState } from 'react';
-import ReactDom from 'react-dom/client';
-import { Link, Navigate, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FaSignInAlt } from "react-icons/fa";
 import axios from 'axios';
 import { toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 
-const Home = () =>{
+const Login = () =>{
     const navigate = useNavigate();
-
+    
     const initialValues = {
         Username: '',
         Password: ''
     }
-
+    const [userData, setUser] = useState();
     const [data, setData] = useState(initialValues);
     const loginUrl = "https://localhost:7169/api/Users/login";
 
@@ -23,7 +22,9 @@ const Home = () =>{
 
         try {
             const response = await axios.post(loginUrl, data1);
-            console.log(response);
+            console.log(response.data);
+            // setUser(response.data);
+            // localStorage.setItem('token', userData.data.accessToken);
             navigate('/Dashboard');
         } catch (error) {
             if(error.response){
@@ -99,4 +100,4 @@ const Home = () =>{
     );
 };
 
-export default Home;
+export default Login;
