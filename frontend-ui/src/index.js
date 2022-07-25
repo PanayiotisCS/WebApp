@@ -1,39 +1,26 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import reportWebVitals from './reportWebVitals';
-import './index.css';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import App from './App';
-import  Register  from './Screens/Register';
-import AdminLogin from './Admin/Screens/AdminLogin';
 import {ToastContainer} from 'react-toastify';
+import { ProtectedRoute } from "./component/router/protected";
+import { Provider } from 'react-redux';
+
+import './index.css';
 import 'react-toastify/dist/ReactToastify.css';
+
+import App from './App';
+import Register  from './Screens/Register';
+import AdminLogin from './Admin/Screens/AdminLogin';
 import Dashboard from './Screens/Dashboard';
 import NotFound from './Screens/NotFound';
 
+// const root = ReactDOM.createRoot(document.getElementById('root'));
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <ToastContainer />
-    <BrowserRouter>
-      <Routes>
-          {/* Public routes */}
-          <Route path="/" element={<App />} />
-          <Route path="/Login" element={<App />} />
-          <Route path="/Register" element={<Register />}/>
-
-          {/* protected routes */}
-          {/* <Route element={<RequireAuth />}> */}
-            <Route path="/" element={ <Dashboard /> }/>
-            <Route path="/Dashboard" element={<Dashboard />}/>
-
-            <Route path="notfound" element={<NotFound />} />
-
-            {/* admin public routes */}
-            <Route path="/admin" element={<AdminLogin />} />
-          {/* </Route> */}
-      </Routes>
-    </BrowserRouter>
+    <App />
   </React.StrictMode>
 );
 
