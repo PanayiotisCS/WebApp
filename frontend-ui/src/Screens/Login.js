@@ -1,17 +1,19 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useCallback, useEffect, useState } from 'react';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { FaSignInAlt } from "react-icons/fa";
-import axios from 'axios';
 import { toast } from "react-toastify";
+
+
 import 'react-toastify/dist/ReactToastify.css';
-import CookieService from '../services/CookieService';
+
+import auth from '../component/router/protected/auth';
 import AuthService from '../services/AuthService';
 import Header from '../component/header';
 import Footer from '../component/footer'
 
-const Login = () => {
+const Login = () => {    
+    
     const navigate = useNavigate();
-
     const initialValues = {
         Username: '',
         Password: ''
@@ -22,11 +24,14 @@ const Login = () => {
     const UserLogin = async (e) => {
         e.preventDefault();
         const data1 = { Username: data.Username, Password: data.Password };
-        console.log(data1);
-        const response = await AuthService.doUserLogin(data1);
+        const response = await auth.login(data1);
+        console.log(response.data);
         if (response) {
+            var res = await response.data;
             AuthService.handleLoginSuccess(response);
-            navigate('/Dashboard');
+            // memoizedCallback();
+            console.log(JSON.stringify(res));
+            navigate('/Dashboard', {state: {data: JSON.stringify(res)} });
         } else {
             if (response.data.error) {
                 toast.error(response.data.error);
@@ -34,11 +39,18 @@ const Login = () => {
         }
     }
 
+    // const memoizedCallback = useCallback(
+    //     () => {
+    //         console.log(result);
+            
+    //     }
+    // );
     const onChange = (e) => {
         setData({ ...data, [e.target.name]: e.target.value });
     }
     return (
         <div className='App'>
+            {/* {!!result && (<Navigate to={{pathname: '/Dashboard' , state : { user : result}}}/>)} */}
             <Header />
             <div className='students-background ui-g' tabIndex={"-1"}>
                 <div className='container pt-5'>

@@ -9,6 +9,10 @@ class UrlService{
     static registerUrl(){
         return apiDomain + "api/Users/signup";
     }
+
+    static logoutUrl(){
+        return apiDomain + "api/Users/logout";
+    }
 }
 
 export default UrlService;

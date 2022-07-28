@@ -1,23 +1,25 @@
 import CookieService from "../../../services/CookieService";
 import AuthService from "../../../services/AuthService";
 
+
 class Auth{
     constructor() {
         const token = CookieService.get("accessToken");
         token ? (this.authenticated = true) : (this.authenticated = false);
     }
 
-    async login(data, cb){
+    async login(data){
         const user = await AuthService.doUserLogin(data);
 
         if (!user){
-            cb(false);
+            // cb(false);
             return false;
         }
 
         localStorage.setItem("accessToken", user.accessToken);
         this.authenticated = true;
-        cb(true);
+        // cb(true);
+        return user;
     }
 
     logout(cb){

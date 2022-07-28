@@ -3,16 +3,16 @@ import UrlService from "./UrlService";
 import CookieService from "./CookieService";
 import { toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import { useNavigate } from "react-router-dom";
 
 const expiresAt = 60 * 24;
 
+
 class AuthService{
-    
+
     async doUserLogin(data){
-        console.log(UrlService.loginUrl());
         try {
-            const response = await axios.post(UrlService.loginUrl(), {Username: data.Username, Password: data.Password});
-            return response.data;
+            return await axios.post(UrlService.loginUrl(), {Username: data.Username, Password: data.Password});
         } catch (error) {
             if(error.response){
                 toast.error(error.response.data.error);
@@ -25,6 +25,22 @@ class AuthService{
         date.setTime(date.getTime() + expiresAt * 60 * 1000);
         const options = {path: "/", expires: date};
         CookieService.set("accessToken", response.accessToken, options );
+        return true;
+    }
+
+    async doUserLogout(){
+        try {
+            const response = await axios.post(UrlService.logoutUrl());
+            return response.data
+        } catch (error) {
+            if(error.response){
+                toast.error(error.response.data.error)
+            }            
+        }
+    }
+
+    handleLogoutSuccess(){
+        CookieService.remove("accessToken");
         return true;
     }
 }

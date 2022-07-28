@@ -10,10 +10,6 @@ import './index.css';
 import 'react-toastify/dist/ReactToastify.css';
 
 import App from './App';
-import Register  from './Screens/Register';
-import AdminLogin from './Admin/Screens/AdminLogin';
-import Dashboard from './Screens/Dashboard';
-import NotFound from './Screens/NotFound';
 
 // const root = ReactDOM.createRoot(document.getElementById('root'));
 const root = ReactDOM.createRoot(document.getElementById('root'));
