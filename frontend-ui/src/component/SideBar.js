@@ -1,8 +1,8 @@
 import React from "react";
-import { Navigate, Link } from "react-router-dom";
+import {Link } from "react-router-dom";
 
 const SideBar = ({page}) => {
-  if (page == 'Dashboard'){
+  if (page === 'Dashboard'){
 
     return(
     <nav id="sidebarMenu" className="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">

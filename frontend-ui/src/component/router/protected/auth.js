@@ -1,14 +1,17 @@
 import CookieService from "../../../services/CookieService";
 import AuthService from "../../../services/AuthService";
 
-
 class Auth{
     constructor() {
+        const admin = false;
         const token = CookieService.get("accessToken");
         token ? (this.authenticated = true) : (this.authenticated = false);
     }
 
     async login(data){
+        if(data.Role === "Admin"){
+            this.admin = true;
+        }
         const user = await AuthService.doUserLogin(data);
 
         if (!user){
@@ -30,6 +33,10 @@ class Auth{
 
     isAuthenticated(){
         return this.authenticated;
+    }
+
+    isAdmin(){
+        return this.admin;
     }
     
     getAccessToken(){

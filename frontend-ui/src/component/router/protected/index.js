@@ -1,6 +1,5 @@
 import React from "react";
-import { Route, Navigate, Outlet } from "react-router-dom";
-import Dashboard from "../../../Screens/Dashboard";
+import {Navigate} from "react-router-dom";
 import auth from "./auth";
 
 export const ProtectedRoute = ({children}) => {

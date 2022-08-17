@@ -1,8 +1,7 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { Link, Navigate, useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { FaSignInAlt } from "react-icons/fa";
 import { toast } from "react-toastify";
-
 
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -16,20 +15,20 @@ const Login = () => {
     const navigate = useNavigate();
     const initialValues = {
         Username: '',
-        Password: ''
+        Password: '',
+        Role: ''
     }
     
     const [data, setData] = useState(initialValues);
 
     const UserLogin = async (e) => {
         e.preventDefault();
-        const data1 = { Username: data.Username, Password: data.Password };
+        const data1 = { Username: data.Username, Password: data.Password, Role: 'Student' };
         const response = await auth.login(data1);
         console.log(response.data);
         if (response) {
             var res = await response.data;
             AuthService.handleLoginSuccess(response);
-            // memoizedCallback();
             console.log(JSON.stringify(res));
             navigate('/Dashboard', {state: {data: JSON.stringify(res)} });
         } else {
@@ -38,19 +37,11 @@ const Login = () => {
             }
         }
     }
-
-    // const memoizedCallback = useCallback(
-    //     () => {
-    //         console.log(result);
-            
-    //     }
-    // );
     const onChange = (e) => {
         setData({ ...data, [e.target.name]: e.target.value });
     }
     return (
         <div className='App'>
-            {/* {!!result && (<Navigate to={{pathname: '/Dashboard' , state : { user : result}}}/>)} */}
             <Header />
             <div className='students-background ui-g' tabIndex={"-1"}>
                 <div className='container pt-5'>
@@ -105,7 +96,7 @@ const Login = () => {
                                         <hr />
                                         <Link to={'/Register'} className="nav-link">Don't have an account? Register here</Link>
                                         <br />
-                                        <a href="#">Forgot Password?</a>
+                                        {/* <a href="#">Forgot Password?</a> */}
                                     </div>
                                 </div>
                             </div>

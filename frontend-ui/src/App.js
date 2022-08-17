@@ -10,6 +10,8 @@ import AdminLogin from './Admin/Screens/AdminLogin';
 import { ProtectedRoute } from "./component/router/protected";
 import Dashboard from "./Screens/Dashboard";
 import Forms from "./Screens/Forms";
+import AdminDashboard from "./Admin/Screens/AdminDashboard";
+
 
 class App extends Component {
   render(){
@@ -19,16 +21,23 @@ class App extends Component {
         <Route path="/" element={<Login />} />
         <Route path="/Login" element={<Login />} />
         <Route path="/Register" element={<Register />}/>
+        <Route path="admin" element={<AdminLogin />}/>
         <Route path="admin/Login" element={<AdminLogin />}/>
 
         {/* Protected routes */}
         <Route
           path="/Dashboard" 
-          // element={<Dashboard />}
           element={
-            // <ProtectedRoute />
             <ProtectedRoute> 
               <Dashboard />
+            </ProtectedRoute>
+          } 
+        />
+        <Route
+          path="/admin/Dashboard" 
+          element={
+            <ProtectedRoute> 
+              <AdminDashboard />
             </ProtectedRoute>
           } 
         />

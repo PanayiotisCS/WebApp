@@ -1,10 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import reportWebVitals from './reportWebVitals';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import {ToastContainer} from 'react-toastify';
-import { ProtectedRoute } from "./component/router/protected";
-import { Provider } from 'react-redux';
 
 import './index.css';
 import 'react-toastify/dist/ReactToastify.css';

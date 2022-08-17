@@ -1,4 +1,4 @@
-import React, { useState} from "react";
+import React, { useState } from "react";
 import { useNavigate } from 'react-router';
 import axios from "axios";
 import Header from "../component/header";
@@ -13,77 +13,74 @@ function Register(props) {
 
     const navigate = useNavigate();
     const [error, setError] = useState({
-        Username: '', 
-        Password: '', 
+        Username: '',
+        Password: '',
         confirmPassword: '',
-        Fname: '', 
-        Lname: '', 
-        Email: '', 
-        StudentNumber: '', 
+        Fname: '',
+        Lname: '',
+        Email: '',
+        StudentNumber: '',
         // address: '', 
         // city: '', 
         // post: '', 
-        Phone: '' 
+        Phone: ''
     });
-    const initialValues = { 
-        Username: '', 
-        Password: '', 
+    const initialValues = {
+        Username: '',
+        Password: '',
         confirmPassword: '',
-        Fname: '', 
-        Lname: '', 
-        Email: '', 
-        StudentNumber: '', 
+        Fname: '',
+        Lname: '',
+        Email: '',
+        StudentNumber: '',
         // Address: '', 
         // City: '', 
         // Post: '', 
-        Phone: '' 
+        Phone: ''
     };
     const [data, setData] = useState(initialValues);
 
     const registerUrl = "https://localhost:7169/api/Users/signup";
-    
+
     const Registration = async (e) => {
         e.preventDefault();
         const data1 = { Username: data.Username, Password: data.Password, Fname: data.Fname, Lname: data.Lname, Email: data.Email, StudentNumber: data.StudentNumber, Phone: data.Phone }
-        
-        try{
+
+        try {
             const response = await axios.post(registerUrl, data1);
             console.log(response);
-            toast.success('Account created! Please Log in', {autoClose:3000});
+            toast.success('Account created! Please Log in', { autoClose: 3000 });
             navigate('/')
         } catch (error) {
             alert(error.response.data.error)
         }
     }
     const onChange = (e) => {
-        // const { name, value } = e.target;
         setData({ ...data, [e.target.name]: e.target.value });
-    
-        // console.log(data);
         validateInput(e);
     }
 
     const validateInput = e => {
-        let {name, value} = e.target;
+        let { name, value } = e.target;
         setError(prev => {
-            const stateObj = {...prev, [name]: "" };
+            const stateObj = { ...prev, [name]: "" };
 
-            switch(name){
+            switch (name) {
                 case "Username":
-                    if(value.length <= 0){
+                    if (value.length <= 0) {
                         stateObj[name] = "Please enter Username.";
                     }
                     break;
 
                 case "Password":
-                if (!value) {
-                    stateObj[name] = "Please enter Password.";
-                    } else if(value.length <= 5){
-                    stateObj[name] = "Please enter at least 6 characters."
+                    if (!value) {
+                        stateObj[name] = "Please enter Password.";
+                    } else if (value.length <= 5) {
+                        stateObj[name] = "Please enter at least 6 characters."
                     } else if (data.confirmPassword && value !== data.confirmPassword) {
-                    stateObj["confirmPassword"] = "Password and Confirm Password does not match.";
+                        stateObj["confirmPassword"] = "Password and Confirm Password does not match.";
                     } else {
-                    stateObj["confirmPassword"] = data.confirmPassword ? "" : error.confirmPassword;
+                        stateObj["confirmPassword"] = data.confirmPassword ? "" : error.confirmPassword;
                     }
                     break;
 
@@ -96,9 +93,10 @@ function Register(props) {
                     break;
 
                 case "Email":
-                    if (value.length <=0 ){
+                    if (value.length <= 0) {
                         stateObj[name] = "Please enter your email";
                     }
+                    break;
                 default:
                     break;
             }
@@ -109,12 +107,11 @@ function Register(props) {
     return (
         <div className="App">
             <Header />
-            
+
             <div className='students-background ui-g" tabIndex={"-1"}'>
                 <div className='container pt-5'>
                     <div className='row pt-5'>
                         <div className='col-sm-6 pt-5 m-auto'>
-                            {/* <pre>{JSON.stringify(data, undefined, 2)}</pre> */}
                         </div>
                         <div className="col-sm-6 pt-5">
                             <div className='card pt-2'>
@@ -130,13 +127,13 @@ function Register(props) {
                                                 <div className='form-group row pt-2 m-auto'>
                                                     <label htmlFor="username" className='col-sm-3 col-form-label'>Username</label>
                                                     <div className='col-sm-9'>
-                                                        <input 
-                                                            type="text" 
-                                                            className='form-control' 
+                                                        <input
+                                                            type="text"
+                                                            className='form-control'
                                                             name="Username"
                                                             placeholder="Username"
-                                                            id="username"  
-                                                            onChange={onChange} 
+                                                            id="username"
+                                                            onChange={onChange}
                                                             value={data.Username}
                                                             onBlur={validateInput}
                                                         />
@@ -148,16 +145,16 @@ function Register(props) {
                                                 <div className='form-group row pt-2 m-auto'>
                                                     <label htmlFor="password" className='col-sm-3 col-form-label'>Password</label>
                                                     <div className='col-sm-9'>
-                                                        <input 
-                                                            type="password" 
+                                                        <input
+                                                            type="password"
                                                             name="Password"
-                                                            className='form-control' 
+                                                            className='form-control'
                                                             placeholder="Password"
-                                                            id="password"  
-                                                            onChange={onChange} 
+                                                            id="password"
+                                                            onChange={onChange}
                                                             value={data.Password}
                                                             onBlur={validateInput} />
-                                                            {error.Password && <span className="err">{error.Password}</span>}
+                                                        {error.Password && <span className="err">{error.Password}</span>}
                                                     </div>
                                                 </div>
                                             </fieldset>
@@ -165,16 +162,16 @@ function Register(props) {
                                                 <div className='form-group row pt-2 m-auto'>
                                                     <label htmlFor="password-repeat" className='col-sm-3 col-form-label'>Repeat Password</label>
                                                     <div className='col-sm-9'>
-                                                        <input 
-                                                            type="password" 
+                                                        <input
+                                                            type="password"
                                                             name="confirmPassword"
-                                                            className='form-control' 
+                                                            className='form-control'
                                                             placeholder="Confirm password"
-                                                            id="password-repeat" 
+                                                            id="password-repeat"
                                                             onChange={onChange}
                                                             value={data.confirmPassword}
-                                                            onBlur={validateInput}/>
-                                                            {error.confirmPassword && <span className="err">{error.confirmPassword}</span>}
+                                                            onBlur={validateInput} />
+                                                        {error.confirmPassword && <span className="err">{error.confirmPassword}</span>}
                                                     </div>
                                                 </div>
                                             </fieldset>
@@ -182,16 +179,16 @@ function Register(props) {
                                                 <div className='form-group row pt-2 m-auto'>
                                                     <label htmlFor="fname" className='col-sm-3 col-form-label'>First Name</label>
                                                     <div className='col-sm-9'>
-                                                        <input 
-                                                            type="text" 
+                                                        <input
+                                                            type="text"
                                                             name="Fname"
-                                                            className='form-control' 
+                                                            className='form-control'
                                                             placeholder="First Name"
-                                                            id="fname" 
+                                                            id="fname"
                                                             onChange={onChange}
                                                             value={data.Fname}
                                                             onBlur={validateInput} />
-                                                            {error.Fname && <span className="err">{error.Fname}</span>}
+                                                        {error.Fname && <span className="err">{error.Fname}</span>}
                                                     </div>
                                                 </div>
                                             </fieldset>
@@ -199,16 +196,16 @@ function Register(props) {
                                                 <div className='form-group row pt-2 m-auto'>
                                                     <label htmlFor="lname" className='col-sm-3 col-form-label'>Last Name</label>
                                                     <div className='col-sm-9'>
-                                                        <input 
-                                                            type="text" 
+                                                        <input
+                                                            type="text"
                                                             name="Lname"
-                                                            className='form-control' 
+                                                            className='form-control'
                                                             placeholder="Last Name"
-                                                            id="lname" 
+                                                            id="lname"
                                                             onChange={onChange}
                                                             value={data.Lname}
-                                                            onBlur={validateInput}/>
-                                                            {error.Lname && <span className="err">{error.Lname}</span>}
+                                                            onBlur={validateInput} />
+                                                        {error.Lname && <span className="err">{error.Lname}</span>}
                                                     </div>
                                                 </div>
                                             </fieldset>
@@ -216,16 +213,16 @@ function Register(props) {
                                                 <div className='form-group row pt-2 m-auto'>
                                                     <label htmlFor="email" className='col-sm-3 col-form-label'>Email</label>
                                                     <div className='col-sm-9'>
-                                                        <input 
-                                                            type="email" 
+                                                        <input
+                                                            type="email"
                                                             name="Email"
-                                                            className='form-control' 
+                                                            className='form-control'
                                                             placeholder="Email"
                                                             id="email"
                                                             onChange={onChange}
                                                             value={data.email}
                                                             onBlur={validateInput} />
-                                                            {error.Email && <span className="err">{error.Email}</span>}
+                                                        {error.Email && <span className="err">{error.Email}</span>}
                                                     </div>
                                                 </div>
                                             </fieldset>
@@ -233,16 +230,16 @@ function Register(props) {
                                                 <div className='form-group row pt-2 m-auto'>
                                                     <label htmlFor="studentNo" className='col-sm-3 col-form-label'>Student Number</label>
                                                     <div className='col-sm-9'>
-                                                        <input 
-                                                            type="text" 
+                                                        <input
+                                                            type="text"
                                                             name="StudentNumber"
-                                                            className='form-control' 
+                                                            className='form-control'
                                                             placeholder="Student Number"
-                                                            id="studentNo" 
+                                                            id="studentNo"
                                                             onChange={onChange}
                                                             value={data.StudentNumber}
-                                                            onBlur={validateInput}/>
-                                                            {error.StudentNumber && <span className="err">{error.StudentNumber}</span>}
+                                                            onBlur={validateInput} />
+                                                        {error.StudentNumber && <span className="err">{error.StudentNumber}</span>}
                                                     </div>
                                                 </div>
                                             </fieldset>
@@ -250,16 +247,16 @@ function Register(props) {
                                                 <div className='form-group row pt-2 m-auto'>
                                                     <label htmlFor="phone" className='col-sm-3 col-form-label'>Phone</label>
                                                     <div className='col-sm-9'>
-                                                        <input 
-                                                            type="text" 
+                                                        <input
+                                                            type="text"
                                                             name="Phone"
-                                                            className='form-control' 
+                                                            className='form-control'
                                                             placeholder="Phone"
-                                                            id="phone" 
+                                                            id="phone"
                                                             onChange={onChange}
                                                             value={data.Phone}
-                                                            onBlur={validateInput}/>
-                                                            {error.Phone && <span className="err">{error.Phone}</span>}
+                                                            onBlur={validateInput} />
+                                                        {error.Phone && <span className="err">{error.Phone}</span>}
                                                     </div>
                                                 </div>
                                             </fieldset>
@@ -283,7 +280,6 @@ function Register(props) {
                                                     </div>
                                                 </div>
                                             </fieldset> */}
-                                            
                                             <div className='row pt-3'>
                                                 <div className='col-md-3 '>
                                                     <button type="submit" className='btn btn-success'>Register</button>

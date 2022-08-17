@@ -3,7 +3,6 @@ import UrlService from "./UrlService";
 import CookieService from "./CookieService";
 import { toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
-import { useNavigate } from "react-router-dom";
 
 const expiresAt = 60 * 24;
 
@@ -12,7 +11,7 @@ class AuthService{
 
     async doUserLogin(data){
         try {
-            return await axios.post(UrlService.loginUrl(), {Username: data.Username, Password: data.Password});
+            return await axios.post(UrlService.loginUrl(), {Username: data.Username, Password: data.Password, Role: data.Role});
         } catch (error) {
             if(error.response){
                 toast.error(error.response.data.error);
