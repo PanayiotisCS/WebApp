@@ -13,6 +13,18 @@ class UrlService{
     static logoutUrl(){
         return apiDomain + "api/Users/logout";
     }
+
+    static createForm(){
+        return apiDomain + "api/Forms";
+    }
+
+    static getForm(){
+        return apiDomain + "api/Forms/";
+    }
+
+    static getForms(){
+        return apiDomain + "api/Forms";
+    }
 }
 
 export default UrlService;

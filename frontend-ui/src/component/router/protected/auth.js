@@ -24,7 +24,7 @@ class Auth{
         // cb(true);
         return user;
     }
-
+    
     logout(cb){
         CookieService.remove("accessToken");
         this.authenticated = false;

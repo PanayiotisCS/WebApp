@@ -1,17 +1,35 @@
 import React, {useState} from "react";
+import {useParams, useLocation} from "react-router-dom";
 import DashboardHeader from "../../component/DashboardHeader";
-import DynamicForm from "../../component/DynamicForm";
+import DynamicForm from "../../component/DynamicForm.tsx";
 import {Container, Button, Col, Row} from "react-bootstrap";
 import {BiArrowBack} from "react-icons/bi";
 import SideBar from "../../component/SideBar";
-import { SurveyCreatorWidget } from "../component/SurveyCreatorWidget";
+import FormsTable from "../../component/FormsTable";
 
-const AdminDashboard = () => {
+const AdminDashboard = (state) => {
+
+    const location = useLocation();
 
     const [isActive, setActive] = useState("false");
+    const [action, setAction ] = useState('');
 
-    const ToggleForm = () => {
+    const ToggleForm = (act) => {
         setActive(!isActive);
+
+        switch(act){
+            case 'forms':
+                setAction('forms');
+                break;
+            case 'create':
+                setAction('create');
+                break;
+            case 'back':
+                setAction('');
+                break;
+            default:
+                break;
+        }
     };
     return(
         
@@ -27,27 +45,27 @@ const AdminDashboard = () => {
                         </div>
                         <div className=" justify-content-between flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
                             {
-                                isActive ? 
+                                isActive? 
                                     <Container>
                                         <Row>
                                             <Col>
-                                                <Button type="button" className="btn btn-primary ">Forms</Button>
+                                                <Button type="button" className="btn btn-primary" onClick={() => ToggleForm('forms')}>Forms</Button>
                                             </Col>
                                             <Col>
-                                                <Button type="button" className="btn btn-primary " onClick={ToggleForm}>Create New Form</Button>
+                                                <Button type="button" className="btn btn-primary" onClick={() => ToggleForm('create')}>Create New Form</Button>
                                             </Col>
-                                            <Col lg="8">
+                                            <Col lg="7">
                                             </Col>
                                         </Row>
                                     </Container>
                                     :
                                     <>
-                                    <div className="d-flex">
-                                        <Button type="button" className="btn btn-primary float-start" onClick={ToggleForm}><BiArrowBack />Back</Button>
-                                    </div>
-                                        <DynamicForm />
+                                        <div className="d-flex">
+                                            <Button type="button" className="btn btn-primary float-start" onClick={() => ToggleForm('back')}><BiArrowBack />Back</Button>
+                                        </div>
+                                        {location.state.toForm}
+                                        {action === 'forms' && location.state.toForm === action ? <FormsTable /> : <DynamicForm />}
                                     </> 
-                                    
                             }
                         </div>
                         {/* <SurveyCreatorWidget /> */}

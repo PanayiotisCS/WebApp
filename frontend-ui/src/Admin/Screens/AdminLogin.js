@@ -22,11 +22,10 @@ const AdminLogin = () =>{
         e.preventDefault();
         const data1 = { Username: data.Username, Password: data.Password, Role: 'Admin' };
         const response = await auth.login(data1);
-        console.log(response.data);
+        
         if (response) {
             var res = await response.data;
             AuthService.handleLoginSuccess(response);
-            console.log(JSON.stringify(res));
             navigate('/admin/Dashboard', {state: {data: JSON.stringify(res)} });
         } else {
             if (response.data.error) {
