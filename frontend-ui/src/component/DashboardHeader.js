@@ -1,25 +1,31 @@
 import React from "react";
-import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import AuthService from "../services/AuthService";
 
 
-const logout = (e) => {
-    e.preventDefault();
-    // const response = await AuthService.doUserLogout();
-    const response = AuthService.handleLogoutSuccess();
-    if(response){
-        // AuthService.handleLogoutSuccess();
-        window.location.reload(true);
-        Navigate('/');
-    } else {
-        if (response.data.error){
-            toast.error(response.data.error);
-        }
-    }
-}
 
 const DashboardHeader = () => {
+
+
+    const navigate = useNavigate();
+
+    const logout = (e) => {
+
+        e.preventDefault();
+        // const response = await AuthService.doUserLogout();
+        const response = AuthService.handleLogoutSuccess();
+        if(response){
+            // AuthService.handleLogoutSuccess();
+            // window.location.reload(true);
+            navigate('/');
+        } else {
+            if (response.data.error){
+                toast.error(response.data.error);
+            }
+        }
+    }
+    
     return (
         <header className="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
             <a className="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="#">Form Submission</a>

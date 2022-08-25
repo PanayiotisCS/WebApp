@@ -25,6 +25,10 @@ class UrlService{
     static getForms(){
         return apiDomain + "api/Forms";
     }
+
+    static deleteForm(id){
+        return apiDomain + `api/Forms/${id}`;
+    }
 }
 
 export default UrlService;

@@ -1,13 +1,16 @@
+import React, {Component} from 'react';
 import axios from "axios";
 import UrlService from "./UrlService";
 import CookieService from "./CookieService";
 import { toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 
+
 const expiresAt = 60 * 24;
+let date = new Date();
 
 
-class AuthService{
+class AuthService extends Component{
 
     async doUserLogin(data){
         try {
@@ -19,11 +22,13 @@ class AuthService{
         }
     }
 
-    handleLoginSuccess(response){
-        let date = new Date();
+    handleLoginSuccess(response){    
+
+        // let date = new Date();
         date.setTime(date.getTime() + expiresAt * 60 * 1000);
-        const options = {path: "/", expires: date};
-        CookieService.set("accessToken", response.accessToken, options );
+        const options = {path: "/", expires: date}
+        CookieService.set('accessToken', response.accessToken, options);
+        
         return true;
     }
 
@@ -39,7 +44,9 @@ class AuthService{
     }
 
     handleLogoutSuccess(){
-        CookieService.remove("accessToken");
+        console.log(date);
+        CookieService.remove("accessToken", {path: '/', expires: date});
+        
         return true;
     }
 }

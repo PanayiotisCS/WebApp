@@ -16,7 +16,7 @@ const AdminDashboard = (state) => {
 
     const ToggleForm = (act) => {
         setActive(!isActive);
-
+        console.log(act);
         switch(act){
             case 'forms':
                 setAction('forms');
@@ -63,8 +63,7 @@ const AdminDashboard = (state) => {
                                         <div className="d-flex">
                                             <Button type="button" className="btn btn-primary float-start" onClick={() => ToggleForm('back')}><BiArrowBack />Back</Button>
                                         </div>
-                                        {location.state.toForm}
-                                        {action === 'forms' && location.state.toForm === action ? <FormsTable /> : <DynamicForm />}
+                                        {action === 'forms' || location.state.toForm === action ? <FormsTable /> : <DynamicForm />}
                                     </> 
                             }
                         </div>
