@@ -11,60 +11,58 @@ import { ProtectedRoute } from "./component/router/protected";
 import Dashboard from "./Screens/Dashboard";
 import Forms from "./Screens/Forms";
 import AdminDashboard from "./Admin/Screens/AdminDashboard";
-
+import EditForm from "./component/EditForm";
+import NotFound from "./Screens/NotFound";
 
 class App extends Component {
-  render(){
+  render() {
     return (
       <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Login />} />
-        <Route path="/Login" element={<Login />} />
-        <Route path="/Register" element={<Register />}/>
-        <Route path="admin" element={<AdminLogin />}/>
-        <Route path="admin/Login" element={<AdminLogin />}/>
+        <Routes>
+          <Route path="/" element={<Login />} />
+          <Route path="/Login" element={<Login />} />
+          <Route path="/Register" element={<Register />} />
+          <Route path="admin" element={<AdminLogin />} />
+          <Route path="admin/Login" element={<AdminLogin />} />
 
-        {/* Protected routes */}
-        <Route
-          path="/Dashboard" 
-          element={
-            <ProtectedRoute> 
-              <Dashboard />
-            </ProtectedRoute>
-          } 
-        />
-        <Route
-          path="/admin/Dashboard" 
-          element={
-            <ProtectedRoute> 
-              <AdminDashboard />
-            </ProtectedRoute>
-          } 
-        />
-        <Route
-          path="/Forms" 
-          element={
-            // <ProtectedRoute />
-            <ProtectedRoute> 
-              <Forms />
-            </ProtectedRoute>
-          } 
-        />
-      </Routes>
+          {/* Protected routes */}
+          <Route
+            path="/Dashboard"
+            element={
+              <ProtectedRoute>
+                <Dashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/Dashboard"
+            element={
+              <ProtectedRoute>
+                <AdminDashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/Forms"
+            element={
+              <ProtectedRoute>
+                <Forms />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/Dashboard/Forms/:formId/edit"
+            element={
+              <ProtectedRoute>
+                <EditForm />
+              </ProtectedRoute>
+            }
+          />
+          <Route path="/Not-found" element={<NotFound />}/>
+        </Routes>
       </BrowserRouter>
-    ); 
+    );
   }
 }
-// function App() {
-//   return (
-//     <div className="App">
-//         <Header />
-//         <div className='students-background ui-g" tabIndex={"-1"}'>
-//           <Login />
-//         </div>
-//         <Footer />
-//       </div>
-//   );
-// };
 
 export default App;

@@ -6,16 +6,18 @@ import UrlService from '../services/UrlService';
 import { AgGridReact } from 'ag-grid-react';
 import { BsFillTrashFill, BsFillPencilFill } from 'react-icons/bs';
 import { toast } from "react-toastify";
-import swal from 'sweetalert';
+import Swal from 'sweetalert2';
 
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
+import { useNavigate } from 'react-router-dom';
 
 
 const FormsTable = () => {
 
-    
+
     const gridRef = useRef();
+    const navigate = useNavigate();
 
     const gridStyle = useMemo(() => ({ height: 520 }), []);
     const [data, setData] = useState(
@@ -46,37 +48,36 @@ const FormsTable = () => {
         ]
     );
 
-    const editForm = async (id, e) => {
-
-        // Complete edit
+    const editForm = (formId, e) => {
+        e.preventDefault();
+        navigate(`Forms/${formId}/edit`);
+        
     }
 
     const deleteForm = async (id, e) => {
         e.preventDefault();
-        
-        if (id === -1){
+
+        if (id === -1) {
             toast.error('Something went wrong!');
         }
 
-        swal({
+        Swal.fire({
             title: "Are you sure?",
             text: "Once deleted, you will not be able to recover this form!",
             icon: "warning",
-            buttons: true,
-            dangerMode: true
-        })
-        .then((willDelete) => {
-            if(willDelete){
-                return axios.delete(UrlService.deleteForm(id));
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                axios.delete(UrlService.deleteForm(id))
+                    .then(() => {
+                        window.location.reload();
+                        toast.success("Form deleted!");
+                    });
             }
         })
-        .then((response) =>{
-            window.location.reload();
-            toast.success("Form deleted!");
-        })
-        .catch((err) => {
-            toast.error(err);
-        });
     }
 
     const [columnDefs] = useState([
@@ -90,8 +91,8 @@ const FormsTable = () => {
             },
             cellRenderer: function (params) {
                 return <div>
-                    <Button className={"btn-info me-1"} onClick={(event) => editForm(params.data.id, event)}><BsFillPencilFill /></Button>
-                    <Button className={"btn-danger"} onClick={(event) => deleteForm(params.data.id, event)}><BsFillTrashFill /></Button>
+                    <Button className={"btn-info me-1 mb-1"} onClick={(event) => editForm(params.data.id, event)}><BsFillPencilFill /></Button>
+                    <Button className={"btn-danger mb-1"} onClick={(event) => deleteForm(params.data.id, event)}><BsFillTrashFill /></Button>
                 </div>
             },
             sortable: false

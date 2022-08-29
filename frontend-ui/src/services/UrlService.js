@@ -18,8 +18,8 @@ class UrlService{
         return apiDomain + "api/Forms";
     }
 
-    static getForm(){
-        return apiDomain + "api/Forms/";
+    static getForm(id){
+        return apiDomain + `api/Forms/${id}`;
     }
 
     static getForms(){
@@ -28,6 +28,10 @@ class UrlService{
 
     static deleteForm(id){
         return apiDomain + `api/Forms/${id}`;
+    }
+
+    static updateForm(id, structure){
+        return apiDomain + `api/Forms/${id}?structure=${structure}`;
     }
 }
 

@@ -32,7 +32,6 @@ const AdminDashboard = (state) => {
         }
     };
     return(
-        
         <div className="App">
             <DashboardHeader />
             <div className="container-fluid">
@@ -63,7 +62,7 @@ const AdminDashboard = (state) => {
                                         <div className="d-flex">
                                             <Button type="button" className="btn btn-primary float-start" onClick={() => ToggleForm('back')}><BiArrowBack />Back</Button>
                                         </div>
-                                        {action === 'forms' || location.state.toForm === action ? <FormsTable /> : <DynamicForm />}
+                                        {action === 'forms' ? <FormsTable /> : <DynamicForm />}
                                     </> 
                             }
                         </div>
