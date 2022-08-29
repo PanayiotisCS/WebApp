@@ -13,7 +13,7 @@ import 'ag-grid-community/styles/ag-theme-alpine.css';
 import { useNavigate } from 'react-router-dom';
 
 
-const FormsTable = () => {
+const FormsTable = ({ admin }) => {
 
 
     const gridRef = useRef();
@@ -48,10 +48,13 @@ const FormsTable = () => {
         ]
     );
 
+    const completeForm = (formId, e) => {
+        e.preventDefault();
+        navigate(`/Forms/${formId}`);
+    }
     const editForm = (formId, e) => {
         e.preventDefault();
         navigate(`Forms/${formId}/edit`);
-        
     }
 
     const deleteForm = async (id, e) => {
@@ -99,7 +102,23 @@ const FormsTable = () => {
         }
     ]);
 
-    const defalutColDef = useMemo(() => ({
+    const [sColumnDefs] = useState([
+        { headerName: 'DOCUMENT ID', field: 'i', filter: true },
+        { headerName: 'TITLE', field: 'Title', filter: true },
+        {
+            headerName: 'ACTION',
+            valueGetter: (params) => {
+                return params.node.key;
+            },
+            cellRenderer: function (params) {
+                return <div>
+                    <Button className={"btn-success mb-1"} onClick={(event) => completeForm(params.data.id, event)}>VIEW</Button>
+                </div>
+            },
+            sortable: false
+        }
+    ]);
+    const defaultColDef = useMemo(() => ({
         sortable: true,
         flex: 1,
         resizable: true
@@ -131,19 +150,35 @@ const FormsTable = () => {
     return (
         <Container>
             <Container>
-                <h2>Current forms</h2>
+                <h2 className='border-bottom border-dark mt-2 pb-3'>Available forms</h2>
 
-                <div className='ag-theme-alpine' style={gridStyle}>
-                    <AgGridReact
-                        ref={gridRef}
-                        rowData={data}
-                        columnDefs={columnDefs}
-                        defaultColDef={defalutColDef}
-                        groupDisplayType="groupRows"
-                        getRowId={getRowId}
-                        pagination={true}
-                        paginationPageSize={10}
-                    />
+                <div className='ag-theme-alpine pt-2' style={gridStyle}>
+                    
+                    {admin === true
+                        ?
+                        <AgGridReact
+                            ref={gridRef}
+                            rowData={data}
+                            columnDefs={columnDefs}
+                            defaultColDef={defaultColDef}
+                            groupDisplayType="groupRows"
+                            getRowId={getRowId}
+                            pagination={true}
+                            paginationPageSize={10}
+                        />
+                        :
+                        <AgGridReact
+                            ref={gridRef}
+                            rowData={data}
+                            columnDefs={sColumnDefs}
+                            defaultColDef={defaultColDef}
+                            groupDisplayType="groupRows"
+                            getRowId={getRowId}
+                            pagination={true}
+                            paginationPageSize={10}
+                        />
+                    }
+
                 </div>
             </Container>
         </Container>

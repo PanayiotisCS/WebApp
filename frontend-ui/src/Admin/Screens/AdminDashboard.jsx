@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {useParams, useLocation} from "react-router-dom";
 import DashboardHeader from "../../component/DashboardHeader";
 import DynamicForm from "../../component/DynamicForm.tsx";
@@ -10,7 +10,7 @@ import FormsTable from "../../component/FormsTable";
 const AdminDashboard = (state) => {
 
     const location = useLocation();
-
+    
     const [isActive, setActive] = useState("false");
     const [action, setAction ] = useState('');
 
@@ -31,6 +31,24 @@ const AdminDashboard = (state) => {
                 break;
         }
     };
+
+    const [isAdmin, setIsAdmin] = useState(false);
+
+    const objData = JSON.parse(location.state.data);
+
+    const checkRole = () => {
+        var flag = false;
+        if(objData.role === 'admin'){
+            flag = true;
+        }
+
+        setIsAdmin(flag);
+    }
+
+    useEffect(() => {
+      checkRole();
+
+    }, [])
     return(
         <div className="App">
             <DashboardHeader />
@@ -62,7 +80,7 @@ const AdminDashboard = (state) => {
                                         <div className="d-flex">
                                             <Button type="button" className="btn btn-primary float-start" onClick={() => ToggleForm('back')}><BiArrowBack />Back</Button>
                                         </div>
-                                        {action === 'forms' ? <FormsTable /> : <DynamicForm />}
+                                        {action === 'forms' ? <FormsTable admin={isAdmin}/> : <DynamicForm />}
                                     </> 
                             }
                         </div>

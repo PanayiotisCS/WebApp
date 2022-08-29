@@ -9,10 +9,10 @@ import Register from './Screens/Register';
 import AdminLogin from './Admin/Screens/AdminLogin';
 import { ProtectedRoute } from "./component/router/protected";
 import Dashboard from "./Screens/Dashboard";
-import Forms from "./Screens/Forms";
 import AdminDashboard from "./Admin/Screens/AdminDashboard";
 import EditForm from "./component/EditForm";
 import NotFound from "./Screens/NotFound";
+import CompleteForm from "./component/CompleteForm";
 
 class App extends Component {
   render() {
@@ -43,18 +43,18 @@ class App extends Component {
             }
           />
           <Route
-            path="/Forms"
-            element={
-              <ProtectedRoute>
-                <Forms />
-              </ProtectedRoute>
-            }
-          />
-          <Route
             path="/admin/Dashboard/Forms/:formId/edit"
             element={
               <ProtectedRoute>
                 <EditForm />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/Forms/:formId"
+            element={
+              <ProtectedRoute>
+                <CompleteForm />
               </ProtectedRoute>
             }
           />
