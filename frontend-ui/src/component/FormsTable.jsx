@@ -5,6 +5,7 @@ import { Container, Button } from 'react-bootstrap';
 import UrlService from '../services/UrlService';
 import { AgGridReact } from 'ag-grid-react';
 import { BsFillTrashFill, BsFillPencilFill } from 'react-icons/bs';
+import {AiOutlineDownload} from 'react-icons/ai';
 import { toast } from "react-toastify";
 import Swal from 'sweetalert2';
 
@@ -13,44 +14,18 @@ import 'ag-grid-community/styles/ag-theme-alpine.css';
 import { useNavigate } from 'react-router-dom';
 
 
-const FormsTable = ({ admin }) => {
+const FormsTable = ({ admin, userId }) => {
 
 
     const gridRef = useRef();
     const navigate = useNavigate();
 
     const gridStyle = useMemo(() => ({ height: 520 }), []);
-    const [data, setData] = useState(
-        [
-            // {
-            //     id: '', 
-            //     Title: '', 
-            //     Input: [
-            //         {
-            //             question: '',
-            //             id: ''
-            //         }
-            //     ],
-            //     Data: [
-            //         {
-            //             id: '',
-            //             type: '',
-            //             question: '',
-            //             members: [
-            //                 {
-            //                     question: '',
-            //                     id: ''
-            //                 }
-            //             ]
-            //         }
-            //     ]
-            // }
-        ]
-    );
+    const [data, setData] = useState([]);
 
     const completeForm = (formId, e) => {
         e.preventDefault();
-        navigate(`/Forms/${formId}`);
+        navigate(`/Forms/${formId}`, {state: {userId: userId}});
     }
     const editForm = (formId, e) => {
         e.preventDefault();
@@ -94,12 +69,13 @@ const FormsTable = ({ admin }) => {
             },
             cellRenderer: function (params) {
                 return <div>
-                    <Button className={"btn-info me-1 mb-1"} onClick={(event) => editForm(params.data.id, event)}><BsFillPencilFill /></Button>
-                    <Button className={"btn-danger mb-1"} onClick={(event) => deleteForm(params.data.id, event)}><BsFillTrashFill /></Button>
+                    <Button className={"btn-info me-1 mb-1"} data-toggle="tooltip" title="Edit form" onClick={(event) => editForm(params.data.id, event)}><BsFillPencilFill /></Button>
+                    <Button className={"btn-danger me-1 mb-1"} data-toggle="tooltip" title="Delete form" onClick={(event) => deleteForm(params.data.id, event)}><BsFillTrashFill /></Button>
+                    <Button className={"btn-light mb-1"} data-toggle="tooltip" title="Download form's answers"><AiOutlineDownload /></Button>
                 </div>
             },
             sortable: false
-        }
+        },
     ]);
 
     const [sColumnDefs] = useState([
@@ -133,14 +109,14 @@ const FormsTable = ({ admin }) => {
             setData([]);
             const response = await axios.get(UrlService.getForms());
             const size = response.data.length;
-
             for (let index = 0; index < size; index++) {
+                console.log(response.data[index])
 
                 setData(data => [...data, {
                     i: index + 1,
                     id: response.data[index].id,
                     Title: JSON.parse(response.data[index].structure)[0]['Title'],
-                    Answers: response.data[index].answers.length
+                    // Answers: response.data[index].answers.length
                 }]);
             }
         }

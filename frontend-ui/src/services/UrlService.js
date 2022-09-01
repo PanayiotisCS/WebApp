@@ -33,6 +33,14 @@ class UrlService{
     static updateForm(id, structure){
         return apiDomain + `api/Forms/${id}?structure=${structure}`;
     }
+
+    static postAnswer(){
+        return apiDomain + 'api/Answers';
+    }
+
+    static getAnswers(){
+        return apiDomain + 'api/Answers';
+    }
 }
 
 export default UrlService;

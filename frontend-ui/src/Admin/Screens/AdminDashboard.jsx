@@ -1,23 +1,25 @@
-import React, {useEffect, useState} from "react";
-import {useParams, useLocation} from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useParams, useLocation } from "react-router-dom";
 import DashboardHeader from "../../component/DashboardHeader";
 import DynamicForm from "../../component/DynamicForm.tsx";
-import {Container, Button, Col, Row} from "react-bootstrap";
-import {BiArrowBack} from "react-icons/bi";
+import { Container, Button, Col, Row } from "react-bootstrap";
+import { BiArrowBack } from "react-icons/bi";
 import SideBar from "../../component/SideBar";
 import FormsTable from "../../component/FormsTable";
+import axios from "axios";
+import UrlService from "../../services/UrlService";
 
 const AdminDashboard = (state) => {
 
     const location = useLocation();
-    
+
     const [isActive, setActive] = useState("false");
-    const [action, setAction ] = useState('');
+    const [action, setAction] = useState('');
 
     const ToggleForm = (act) => {
         setActive(!isActive);
         console.log(act);
-        switch(act){
+        switch (act) {
             case 'forms':
                 setAction('forms');
                 break;
@@ -38,7 +40,7 @@ const AdminDashboard = (state) => {
 
     const checkRole = () => {
         var flag = false;
-        if(objData.role === 'admin'){
+        if (objData.role === 'admin') {
             flag = true;
         }
 
@@ -46,10 +48,12 @@ const AdminDashboard = (state) => {
     }
 
     useEffect(() => {
-      checkRole();
+
+        checkRole();
+        
 
     }, [])
-    return(
+    return (
         <div className="App">
             <DashboardHeader />
             <div className="container-fluid">
@@ -62,7 +66,7 @@ const AdminDashboard = (state) => {
                         </div>
                         <div className=" justify-content-between flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
                             {
-                                isActive? 
+                                isActive ?
                                     <Container>
                                         <Row>
                                             <Col>
@@ -80,8 +84,8 @@ const AdminDashboard = (state) => {
                                         <div className="d-flex">
                                             <Button type="button" className="btn btn-primary float-start" onClick={() => ToggleForm('back')}><BiArrowBack />Back</Button>
                                         </div>
-                                        {action === 'forms' ? <FormsTable admin={isAdmin}/> : <DynamicForm />}
-                                    </> 
+                                        {action === 'forms' ? <FormsTable admin={isAdmin} /> : <DynamicForm />}
+                                    </>
                             }
                         </div>
                         {/* <SurveyCreatorWidget /> */}

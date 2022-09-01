@@ -27,7 +27,7 @@ function Dashboard() {
 
     useEffect(() => {
         checkRole();
-
+        console.log(objData);
     }, [])
 
     return (
@@ -59,7 +59,7 @@ function Dashboard() {
                                     <div className="d-flex">
                                         <Button type="button" className="btn btn-primary float-start" onClick={() => setIsActive(true)}><BiArrowBack />Back</Button>
                                     </div>
-                                    <FormsTable admin={isAdmin} />
+                                    <FormsTable admin={isAdmin} userId={objData.userId}/>
                                 </>
                             }
                         </div>

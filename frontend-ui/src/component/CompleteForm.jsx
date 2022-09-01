@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { Container, Form, Button } from 'react-bootstrap';
 import { BiArrowBack } from 'react-icons/bi';
 
@@ -7,18 +7,20 @@ import axios from 'axios';
 
 import DashboardHeader from './DashboardHeader'
 import UrlService from '../services/UrlService';
-import Checkbox from './Checkbox';
-import Radio from './Radio';
-import DropDown from './DropDown';
+import { toast } from 'react-toastify';
+
 
 const CompleteForm = () => {
 
     const { formId } = useParams();
     const [title, setTitle] = useState('');
+    const [uid, setUid] = useState();
 
     const [inviteMembers, setInviteMembers] = useState([]);
     const [teamMembers, setTeamMembers] = useState([]);
     const navigate = useNavigate();
+    const location = useLocation();
+
 
     //handle email row change
     const handleMemberChange = (id, event) => {
@@ -27,7 +29,25 @@ const CompleteForm = () => {
 
         let _inviteMembers = [...inviteMembers]
         _inviteMembers[index][event.target.name] = event.target.value
+        // console.log(event.target);
         setInviteMembers(_inviteMembers)
+    }
+
+    const handleTeamMemberChange = (id, teamId, event) => {
+        const index = teamMembers.findIndex((m) => m.id === teamId)
+
+        let _teamMembers = [...teamMembers]
+
+        if (_teamMembers[index]['answer'].indexOf(event.target.value) <= -1) {
+
+            if (event.target.type === 'radio') {
+                _teamMembers[index]['answer'] = []
+            }
+            _teamMembers[index]['answer'].push(event.target.value)
+            _teamMembers[index]['members'][id].checked = true;
+        }
+
+        setTeamMembers(_teamMembers)
     }
 
     useEffect(() => {
@@ -37,8 +57,9 @@ const CompleteForm = () => {
 
             setInviteMembers([]);
             setTeamMembers([]);
+
             const response = await axios.get(UrlService.getForm(formId));
-            console.log(JSON.parse(response.data.structure));
+
             if (response.data) {
 
                 setTitle(JSON.parse(response.data.structure)[0]['Title'])
@@ -65,11 +86,12 @@ const CompleteForm = () => {
                 for (let index = 0; index < data_size; index++) {
                     let _members = DataFields[index]['members'];
                     let array = [];
-                    _members.forEach(element => {
+                    _members.forEach((element, i) => {
 
                         array.push({
                             question: element.question,
-                            answer: '',
+                            index: i,
+                            checked: false,
                             id: element.id
                         })
                     });
@@ -79,7 +101,8 @@ const CompleteForm = () => {
                         {
                             type: DataFields[index]['type'],
                             question: DataFields[index]['question'],
-                            members: array
+                            members: array,
+                            answer: [],
                         }
                     ])
                 }
@@ -90,33 +113,123 @@ const CompleteForm = () => {
         }
 
         fetchData();
-
+        setUid(location.state.userId);
     }, [])
 
 
-    function Components({team}){
-        switch(team.type){
+
+
+    function Components({ team }) {
+        switch (team.type) {
             case '':
                 return null;
             case 'Checkbox':
-                return <Checkbox team={team}/>
+                return <Checkbox team={team} />
             case 'Radio':
                 return <Radio team={team} />
             case 'Dropdown':
-                return <DropDown team={team}/>
+                return <DropDown team={team} />
         }
     }
 
-    const saveData = (e) => {
+    function Checkbox({ team }) {
+        return (
+            <>
+                {team.members.map((element) => (
+
+                    <Form.Check
+                        key={element.id}
+                        type='Checkbox'
+                        label={element.question}
+                        id={element.id}
+                        value={element.question}
+                        onChange={(e) => handleTeamMemberChange(element.index, team.id, e)}
+                    />
+                ))}
+            </>
+        )
+    }
+
+    function Radio({ team }) {
+        return (
+            <>
+                {team.members.map((element) => (
+                    <div key={element.id}>
+                        <Form.Check
+                            type='Radio'
+                            label={element.question}
+                            id={element.id}
+                            name='answer'
+                            value={element.question}
+                            checked={element.checked}
+                            isValid={true}
+                            onChange={(e) => handleTeamMemberChange(element.index, team.id, e)}
+                        />
+                    </div>
+                ))}
+
+
+            </>
+        )
+    }
+
+    function DropDown({ team }) {
+        return (
+            <>
+                {team.members.map((element) => (
+                    <div key={element.id}>
+                        <Form.Check
+                            type='Radio'
+                            label={element.question}
+                            id={element.id}
+                            value={element.question}
+                            checked={element.question}
+                            isValid={true}
+                            onChange={(e) => handleTeamMemberChange(element.index, team.id, e)}
+                        />
+                    </div>
+                ))}
+
+
+            </>
+        )
+    }
+    const saveData = async (e) => {
         e.preventDefault();
 
 
-        const answer = [
+        const Structure = [
+            title,
             inviteMembers,
-            teamMembers
+            teamMembers,
         ]
 
-        console.log(answer);
+        const date = new Date();
+        var DateInserted = date.toJSON();
+        // var DateInserted = date.getMonth() + "/" + date.getDate() + "/" + date.getFullYear();
+
+        const Answer = 
+            {
+
+                'Structure': JSON.stringify(Structure),
+                'FormId': parseInt(formId),
+                'UserId': uid,
+                'DateInserted': DateInserted
+            };
+        console.log(Answer);
+        try {
+
+            const response = await axios.post('https://localhost:7169/api/Answers', Answer)
+
+            if (response) {
+                navigate(-1);
+                toast.success("Form submited successful!");
+
+            }
+        } catch (error) {
+            toast.error('Something went wrong');
+            console.log(error);
+        }
     }
 
 
@@ -132,33 +245,38 @@ const CompleteForm = () => {
                         <div className=" justify-content-between flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
                             <Button type="button" className="btn btn-primary float-start" onClick={() => navigate(-1)}><BiArrowBack />Back</Button>
                         </div>
-                        <Container>
-                            <Form>
-                                <h3>{title}</h3>
+                        <Container className='mt-5'>
+                            <Form onSubmit={saveData}>
+                                <h3 className='mb-5'>{title}</h3>
+                                <hr />
                                 {inviteMembers.map((member) => (
-                                    <Form.Group>
-                                        <Form.Label>{member.question}</Form.Label>
-                                        <input
-                                            className="form-control"
-                                            type="text"
-                                            name="question"
-                                            placeholder={member.question}
-                                            value={member.answer}
-                                            onChange={(e) => handleMemberChange(member.id, e)}
-                                        />
+                                    <>
+                                        <Form.Group key={member.id}>
+                                            <Form.Label>{member.question}</Form.Label>
+                                            <input
+                                                className="form-control"
+                                                type="text"
+                                                name='answer'
+                                                placeholder={member.question}
+                                                // value={member.answer}
+                                                onChange={(e) => handleMemberChange(member.id, e)}
+                                                required={true}
+                                            />
+                                        </Form.Group>
+                                        <hr />
+                                    </>
+                                ))}
+
+                                {teamMembers.map((team) => (
+                                    // add drop down or check box here
+                                    <Form.Group key={team.id}>
+                                        <Form.Label>{team.question}</Form.Label>
+                                        <Components team={team} />
                                     </Form.Group>
                                 ))}
-                                <div className='border-top border-black mt-3'>
-                                    {teamMembers.map((team) => (
-                                        // add drop down or check box here
-                                        <Form.Group>
-                                            <Form.Label>{team.question}</Form.Label>
-                                            <Components team={team} />
-                                        </Form.Group>
-                                    ))}
-                                </div>
+                                <hr />
+                                <Button type='submit' className='btn-success mt-5'>Submit Form</Button>
                             </Form>
-                            <Button type='submit' className='btn-success' onClick={saveData}>Submit Form</Button>
                         </Container>
                     </main>
                 </div>

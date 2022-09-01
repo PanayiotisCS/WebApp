@@ -166,7 +166,7 @@ const EditForm = () => {
             );
 
             const res = await response.data;
-            navigate('/admin/Dashboard');
+            navigate(-1);
             console.log(res);
             toast.success('Form updated successfuly');
         } catch (error) {
@@ -317,7 +317,7 @@ const EditForm = () => {
                                                             </option>
                                                             <option value="Checkbox">Check Box</option>
                                                             <option value="Dropdown">Drop Down</option>
-                                                            <option value="Inputfields">Input Fields</option>
+                                                            <option value="Radio">Radio</option>
                                                         </select>
                                                     </Col>
                                                 </Row>
