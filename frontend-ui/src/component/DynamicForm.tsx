@@ -173,7 +173,6 @@ const DynamicForm = () => {
 
 		if(response){
 			// await response.data;
-			navigate('/admin/Dashboard', {state: {toForm: 'forms'}});			
 			toast.success("Form submited!");
 		}else{
 			toast.error("Something went wrong.");

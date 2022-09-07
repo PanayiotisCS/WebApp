@@ -41,6 +41,10 @@ class UrlService{
     static getAnswers(){
         return apiDomain + 'api/Answers';
     }
+
+    static getFromForm(id){
+        return apiDomain + `api/Answers/FromForm/${id}`;
+    }
 }
 
 export default UrlService;
