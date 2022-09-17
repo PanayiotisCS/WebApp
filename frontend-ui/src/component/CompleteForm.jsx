@@ -176,20 +176,17 @@ const CompleteForm = () => {
     function DropDown({ team }) {
         return (
             <>
-                {team.members.map((element) => (
-                    <div key={element.id}>
-                        <Form.Check
-                            type='Radio'
-                            label={element.question}
-                            id={element.id}
-                            value={element.question}
-                            checked={element.question}
-                            isValid={true}
-                            onChange={(e) => handleTeamMemberChange(element.index, team.id, e)}
-                        />
-                    </div>
-                ))}
+                <Form.Select>
+                    {team.members.map((element) => (
+                        // <div key={element.id}>
 
+                            <option value={element.question}>{element.question}</option>
+
+                            
+                        // </div>
+                    ))}
+
+                </Form.Select>
 
             </>
         )
@@ -208,14 +205,14 @@ const CompleteForm = () => {
         var DateInserted = date.toJSON();
         // var DateInserted = date.getMonth() + "/" + date.getDate() + "/" + date.getFullYear();
 
-        const Answer = 
-            {
+        const Answer =
+        {
 
-                'Structure': JSON.stringify(Structure),
-                'FormId': parseInt(formId),
-                'UserId': uid,
-                'DateInserted': DateInserted
-            };
+            'Structure': JSON.stringify(Structure),
+            'FormId': parseInt(formId),
+            'UserId': uid,
+            'DateInserted': DateInserted
+        };
         console.log(Answer);
         try {
 
