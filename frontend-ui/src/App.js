@@ -13,6 +13,8 @@ import AdminDashboard from "./Admin/Screens/AdminDashboard";
 import EditForm from "./component/EditForm";
 import NotFound from "./Screens/NotFound";
 import CompleteForm from "./component/CompleteForm";
+import Settings from "./Admin/Screens/Settings";
+import SettingsRegister from "./Admin/Screens/SettingsRegister";
 
 class App extends Component {
   render() {
@@ -55,6 +57,22 @@ class App extends Component {
             element={
               <ProtectedRoute>
                 <CompleteForm />
+              </ProtectedRoute>
+            }
+          />
+          <Route 
+            path="/Settings"
+            element={
+              <ProtectedRoute>
+                  <Settings />
+              </ProtectedRoute>
+            }
+          />
+          <Route 
+            path="/Settings/Register"
+            element={
+              <ProtectedRoute>
+                  <SettingsRegister />
               </ProtectedRoute>
             }
           />

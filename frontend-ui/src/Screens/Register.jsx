@@ -36,7 +36,8 @@ function Register(props) {
         // Address: '', 
         // City: '', 
         // Post: '', 
-        Phone: ''
+        Phone: '',
+        Type: ''
     };
     const [data, setData] = useState(initialValues);
 
@@ -44,7 +45,7 @@ function Register(props) {
 
     const Registration = async (e) => {
         e.preventDefault();
-        const data1 = { Username: data.Username, Password: data.Password, Fname: data.Fname, Lname: data.Lname, Email: data.Email, StudentNumber: data.StudentNumber, Phone: data.Phone }
+        const data1 = { Username: data.Username, Password: data.Password, Fname: data.Fname, Lname: data.Lname, Email: data.Email, StudentNumber: data.StudentNumber, Phone: data.Phone, Type: 'student' }
 
         try {
             const response = await axios.post(registerUrl, data1);
