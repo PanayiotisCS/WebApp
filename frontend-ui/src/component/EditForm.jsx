@@ -246,7 +246,7 @@ const EditForm = () => {
                     </div>
                     <div className=" justify-content-between flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
                         <div className='d-flex'>
-                            <Button className='btn btn-primary float-start' onClick={() => navigate('/admin/Dashboard')} ><BiArrowBack />Back</Button>
+                            <Button className='btn btn-primary float-start' onClick={() => navigate(-1)} ><BiArrowBack />Back</Button>
                         </div>
                     </div>
                     <Container>
